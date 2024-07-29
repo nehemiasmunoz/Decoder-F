@@ -1,4 +1,4 @@
-import 'package:decoder/src/models/user/user_model.dart';
+import 'package:decoder/src/domain/models/user/user_model.dart';
 
 abstract interface class UserRepository {
   Future<List<User>> getAll();

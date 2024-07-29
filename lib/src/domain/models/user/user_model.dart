@@ -1,5 +1,5 @@
 import 'package:decoder/src/data/util/constants.dart';
-import 'package:decoder/src/models/enums/enums.dart';
+import 'package:decoder/src/domain/models/enums/enums.dart';
 
 class User {
   late int id;
