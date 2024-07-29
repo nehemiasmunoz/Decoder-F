@@ -1,13 +1,27 @@
+import 'package:decoder/src/data/provider/user/user_provider.dart';
 import 'package:decoder/src/presentation/ui/components/components.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../domain/models/models.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    User user = context.watch<UserProvider>().user;
+
     return Scaffold(
-      drawer: Drawer(child: DrawerMenu()),
+      drawer: Drawer(
+        child: user.name != " "
+            ? ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "register");
+                },
+                child: const Text("Register"))
+            : DrawerMenu(),
+      ),
       appBar: AppBar(
         title: const Text("Home Screen"),
         centerTitle: true,
