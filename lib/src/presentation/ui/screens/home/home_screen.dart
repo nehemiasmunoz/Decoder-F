@@ -1,4 +1,4 @@
-import 'package:decoder/src/ui/components/components.dart';
+import 'package:decoder/src/presentation/ui/components/components.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:decoder/src/ui/screens/screens.dart';
+import 'package:decoder/src/presentation/ui/screens/screens.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
