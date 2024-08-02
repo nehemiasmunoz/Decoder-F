@@ -12,9 +12,16 @@ class UserDatabaseProvider extends ChangeNotifier {
 
   void getUserFromDB() async {
     _userDatabase = await UserRepositoryImpl().getUser();
+    notifyListeners();
   }
 
   void addUserToDb(User user) {
     UserRepositoryImpl().insertOne(user);
+    notifyListeners();
+  }
+
+  void deleteUserData(User user) {
+    UserRepositoryImpl().deleteOne(user.id);
+    notifyListeners();
   }
 }
