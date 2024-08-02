@@ -32,7 +32,7 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<int> insertOne(User user) async {
     final db = await DatabaseService.instance.database;
-    return db.insert(userColumnName, user.toMap());
+    return db.insert(userTableName, user.toMap());
   }
 
   @override
