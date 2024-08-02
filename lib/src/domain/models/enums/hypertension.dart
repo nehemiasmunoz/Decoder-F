@@ -1,3 +1,5 @@
+List<Hypertension> get hypertensionList => Hypertension.values;
+
 enum Hypertension {
   none(
     type: "Sin hipertensión",

@@ -1,3 +1,5 @@
+List<Diabetes> get diabetesList => Diabetes.values;
+
 enum Diabetes {
   none(
       type: "Sin diabetes",
@@ -26,6 +28,7 @@ enum Diabetes {
   final String type;
   final String description;
   const Diabetes({required this.type, required this.description});
+  static List<Diabetes> get diabetesList => Diabetes.values;
 
   static Diabetes getDiabetesTypeByName(String source) {
     return Diabetes.values.byName(source);

@@ -1,4 +1,4 @@
-import 'package:decoder/src/data/provider/user/user_provider.dart';
+import 'package:decoder/src/data/provider/user/user_database_provider.dart';
 import 'package:decoder/src/presentation/ui/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    User user = context.watch<UserProvider>().user;
+    User user = context.watch<UserDatabaseProvider>().user;
 
     return Scaffold(
       drawer: Drawer(

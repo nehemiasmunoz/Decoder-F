@@ -3,14 +3,24 @@ import 'package:decoder/src/domain/models/enums/enums.dart';
 
 class User {
   late int id;
-  late String name;
-  late int age;
-  late bool hasDiabetes;
-  late bool hasHypertension;
-  late Diabetes diabetesType;
-  late Hypertension hypertensionType;
+  String name = "";
+  int age = 19;
+  bool hasDiabetes = false;
+  bool hasHypertension = false;
+  Diabetes diabetesType = Diabetes.none;
+  Hypertension hypertensionType = Hypertension.none;
+
+  void toggleHasDiabetes() {
+    hasDiabetes = !hasDiabetes;
+  }
+
+  void toggleHasHypertension() {
+    hasHypertension = !hasHypertension;
+  }
 
   User();
+  User.withParameters(this.name, this.age, this.hasDiabetes,
+      this.hasHypertension, this.diabetesType, this.hypertensionType);
 
   Map<String, Object?> toMap() {
     var map = <String, Object?>{
