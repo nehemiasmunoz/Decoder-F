@@ -19,6 +19,16 @@ class UserForm extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setDiabetes(Diabetes newValue) {
+    newUser.diabetesType = newValue;
+    notifyListeners();
+  }
+
+  void setHypertension(Hypertension newValue) {
+    newUser.hypertensionType = newValue;
+    notifyListeners();
+  }
+
   validateName(String? val) {
     if (val != null && val.isNotEmpty) {
       return null;
