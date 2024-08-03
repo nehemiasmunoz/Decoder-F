@@ -30,12 +30,18 @@ class DrawerMenu extends StatelessWidget {
         ListTile(
           title: Text("Hypertension type:${user.hypertensionType} "),
         ),
-        Divider(),
+        const Divider(),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(onPressed: null, icon: Icon(Icons.edit)),
-            IconButton(onPressed: null, icon: Icon(Icons.delete))
+            IconButton(
+              onPressed: () {
+                Provider.of<UserDatabaseProvider>(context, listen: false)
+                    .deleteUserData(user);
+              },
+              icon: const Icon(Icons.delete),
+            )
           ],
         )
       ],
