@@ -1,4 +1,5 @@
 import 'package:decoder/routes/app_routes.dart';
+import 'package:decoder/src/data/provider/ingredient/ingredient_database_provider.dart';
 import 'package:decoder/src/data/provider/user/form/user_form.dart';
 import 'package:decoder/src/data/provider/user/user_database_provider.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<IngredientDatabaseProvider>(
+            create: (ctx) => IngredientDatabaseProvider()),
         ChangeNotifierProvider<UserForm>(create: (ctx) => UserForm()),
         ChangeNotifierProvider<UserDatabaseProvider>(
             create: (ctx) => UserDatabaseProvider()),
