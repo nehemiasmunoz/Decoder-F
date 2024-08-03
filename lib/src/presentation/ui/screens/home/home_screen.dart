@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       drawer: Drawer(
-        child: user.name != " "
+        child: user.name == ""
             ? ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, "register");
@@ -57,7 +57,7 @@ class HomeScreenBody extends StatelessWidget {
               ),
             )
           ]),
-          Divider(),
+          const Divider(),
           Expanded(
             child: ListView.builder(
               itemCount: 3,
