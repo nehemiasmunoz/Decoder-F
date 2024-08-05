@@ -1,3 +1,4 @@
+import 'package:decoder/src/data/provider/ingredient/ingredient_database_provider.dart';
 import 'package:decoder/src/data/provider/user/user_database_provider.dart';
 import 'package:decoder/src/presentation/ui/components/components.dart';
 import 'package:flutter/material.dart';
@@ -59,17 +60,24 @@ class HomeScreenBody extends StatelessWidget {
           ]),
           const Divider(),
           Expanded(
-            child: ListView.builder(
-              itemCount: 3,
-              itemBuilder: (context, i) => GestureDetector(
-                onTap: () => Navigator.pushNamed(context, "detail"),
-                child: const Card(
-                  child: ListTile(
-                    title: Text("hi"),
-                    trailing: Icon(Icons.arrow_forward_ios_sharp),
+            child: Consumer<IngredientDatabaseProvider>(
+              builder: (BuildContext context, value, Widget? child) {
+                if (value.ingredients.isEmpty) {
+                  return const Text("The ingredient database is empty");
+                }
+                return ListView.builder(
+                  itemCount: value.ingredients.length,
+                  itemBuilder: (context, i) => GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, "detail"),
+                    child: Card(
+                      child: ListTile(
+                        title: Text(value.ingredients[i].name),
+                        trailing: const Icon(Icons.arrow_forward_ios_sharp),
+                      ),
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
           )
         ],
