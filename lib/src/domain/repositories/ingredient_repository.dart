@@ -1,7 +1,7 @@
 import 'package:decoder/src/domain/models/ingredient/ingredient_model.dart';
 
 abstract class IngredientRepository {
-  Future<List<Ingredient>?> getIngredientList();
-  Future<int> insertNew(Ingredient ingredient);
-  Future<int> deleteOne(int ingredientId);
+  Future<List<Ingredient>?> getIngredientsList();
+  Future<int> insertIngredient(Ingredient ingredient);
+  Future<int> deleteIngredient(int ingredientId);
 }
