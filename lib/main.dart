@@ -1,10 +1,13 @@
 import 'package:decoder/routes/app_routes.dart';
+import 'package:decoder/src/data/provider/gemini/gemini_provider.dart';
 import 'package:decoder/src/data/provider/user/form/user_form.dart';
 import 'package:decoder/src/data/provider/user/user_database_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MainApp());
 }
 
@@ -15,6 +18,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<GeminiProvider>(
+          create: (context) => GeminiProvider(),
+        ),
         ChangeNotifierProvider<UserForm>(create: (ctx) => UserForm()),
         ChangeNotifierProvider<UserDatabaseProvider>(
             create: (ctx) => UserDatabaseProvider()),
