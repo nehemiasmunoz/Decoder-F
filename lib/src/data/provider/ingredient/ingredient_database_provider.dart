@@ -5,22 +5,22 @@ import 'package:flutter/material.dart';
 class IngredientDatabaseProvider extends ChangeNotifier {
   List<Ingredient> _ingredients = [];
   List<Ingredient> get ingredients {
-    getIngredientsFromDB();
+    getIngredientsFromDb();
     return _ingredients;
   }
 
-  void getIngredientsFromDB() async {
-    _ingredients = await IngredientRepositoryImpl().getIngredientList();
+  void getIngredientsFromDb() async {
+    _ingredients = await IngredientRepositoryImpl().getIngredientsList();
     notifyListeners();
   }
 
-  void addUserToDb(Ingredient ingredient) {
-    IngredientRepositoryImpl().insertNew(ingredient);
+  void addIngredientToDb(Ingredient ingredient) {
+    IngredientRepositoryImpl().insertIngredient(ingredient);
     notifyListeners();
   }
 
-  void deleteUserData(Ingredient ingredient) {
-    IngredientRepositoryImpl().deleteOne(ingredient.id);
+  void deleteIngredientFormDb(Ingredient ingredient) {
+    IngredientRepositoryImpl().deleteIngredient(ingredient.id);
     notifyListeners();
   }
 }

@@ -21,18 +21,20 @@ class HomeScreen extends StatelessWidget {
                   Navigator.pushNamed(context, "register");
                 },
                 child: const Text("Register"))
-            : DrawerMenu(),
+            : const DrawerMenu(),
       ),
       appBar: AppBar(
         title: const Text("Home Screen"),
         centerTitle: true,
       ),
-      body: HomeScreenBody(),
+      body: const HomeScreenBody(),
     );
   }
 }
 
 class HomeScreenBody extends StatelessWidget {
+  const HomeScreenBody({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

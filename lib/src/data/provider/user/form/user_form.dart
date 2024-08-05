@@ -62,8 +62,6 @@ class UserForm extends ChangeNotifier {
   }
 
   User getUserData() {
-    print("lala");
-    print(newUser);
     return newUser;
   }
 }

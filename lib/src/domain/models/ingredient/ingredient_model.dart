@@ -22,7 +22,7 @@ class Ingredient {
       ingredientColumnDiabeticsReasons: diabeticsReasons,
       ingredientColumnHypertensiveReasons: hypertensiveReasons
     };
-    if (id != null) map[ingredientColumnId] == 1;
+    map[ingredientColumnId] == 1;
     return map;
   }
 
