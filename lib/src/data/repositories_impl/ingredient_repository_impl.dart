@@ -16,13 +16,7 @@ class IngredientRepositoryImpl implements IngredientRepository {
   Future<List<Ingredient>> getIngredientsList() async {
     final db = await DatabaseService.instance.database;
     List<Map<String, Object?>> dbIngredients =
-        await db.query(ingredientTableName, columns: [
-      ingredientColumnId,
-      ingredientColumnName,
-      ingredientColumnDescription,
-      ingredientColumnDiabeticsReasons,
-      ingredientColumnHypertensiveReasons
-    ]);
+        await db.rawQuery('SELECT * FROM $ingredientTableName');
 
     if (dbIngredients.isNotEmpty) {
       List<Ingredient> ingredientList = [];
