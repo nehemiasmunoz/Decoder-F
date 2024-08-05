@@ -23,7 +23,7 @@ class UserRepositoryImpl implements UserRepository {
       userColumnDiabetesType,
       userColumnHypertensionType
     ]);
-    if (users.length > 0) {
+    if (users.isNotEmpty) {
       return User.fromMap(users.first);
     }
     return Future(() => User());

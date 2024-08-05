@@ -31,10 +31,8 @@ class User {
       userColumnDiabetesType: diabetesType.name,
       userColumnHypertensionType: hypertensionType.name
     };
-    if (id != null) {
-      map[userColumnId] = id;
-    }
-    return map;
+    map[userColumnId] = id;
+      return map;
   }
 
   User.fromMap(Map<String, Object?> map) {

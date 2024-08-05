@@ -34,7 +34,7 @@ class DrawerMenu extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            IconButton(onPressed: null, icon: Icon(Icons.edit)),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
             IconButton(
               onPressed: () {
                 Provider.of<UserDatabaseProvider>(context, listen: false)
