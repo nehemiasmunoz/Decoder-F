@@ -1,4 +1,4 @@
-import 'package:decoder/src/data/util/constants.dart';
+import 'package:decoder/src/data/services/database/database_tables.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -22,27 +22,10 @@ class DatabaseService {
     final database = await openDatabase(
       version: version,
       databasePath,
-      onCreate: (db, version) {
-        db.execute('''
-        CREATE TABLE IF NOT EXISTS $userTableName (
-         $userColumnId INTEGER PRIMARY KEY AUTOINCREMENT,
-          $userColumnName TEXT NOT NULL,
-          $userColumnAge INTEGER NOT NULL,
-          $userColumnHasDiabetes BOOLEAN NOT NULL,
-          $userColumnHasHypertension BOOLEAN NOT NULL,
-          $userColumnDiabetesType TEXT,
-          $userColumnHypertensionType TEXT
-        );
-        CREATE TABLE IF NOT EXISTS $ingredientTableName (
-          $ingredientColumnId INTEGER PRIMARY KEY autoincrement,
-          $ingredientColumnName TEXT NOT NULL,
-          $ingredientColumnDescription TEXT NOT NULL,
-          $ingredientColumnRecommendedForDiabetics BOOLEAN NOT NULL,
-          $ingredientColumnRecommendeForHypertensive BOOLEAN NOT NULL,
-          $ingredientColumnDiabeticsReasons TEXT,
-          $ingredientColumnHypertensiveReasons TEXT
-        );
-      ''');
+      onCreate: (db, version) async {
+        for (var script in DatabaseTables.tables) {
+          await db.execute(script);
+        }
       },
     );
     return database;
