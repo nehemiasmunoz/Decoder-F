@@ -13,8 +13,8 @@ const String ingredientColumnId = "_id";
 const String ingredientColumnName = "name";
 const String ingredientColumnDescription = "description";
 const String ingredientColumnRecommendedForDiabetics =
-    "recommended_for_diabetics";
+    "recommendedForDiabetics";
 const String ingredientColumnRecommendeForHypertensive =
-    "recommended_for_hypertensive";
-const String ingredientColumnDiabeticsReasons = "diabetics_reasons";
-const String ingredientColumnHypertensiveReasons = "hypertensives_reasons";
+    "recommendedForHypertensives";
+const String ingredientColumnDiabeticsReasons = "diabeticReasons";
+const String ingredientColumnHypertensiveReasons = "hypertensiveReasons";
