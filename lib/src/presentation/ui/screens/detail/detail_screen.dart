@@ -2,27 +2,25 @@ import 'package:decoder/src/domain/models/ingredient/ingredient_model.dart';
 import 'package:flutter/material.dart';
 
 class DetailScreen extends StatelessWidget {
-  const DetailScreen({super.key, this.ingredient});
+  const DetailScreen({super.key});
 
-  final Ingredient? ingredient;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Ingredient name"),
       ),
-      body: DetailScreenBody(
-        ingredient: ingredient,
-      ),
+      body: const DetailScreenBody(),
     );
   }
 }
 
 class DetailScreenBody extends StatelessWidget {
-  const DetailScreenBody({super.key, this.ingredient});
-  final Ingredient? ingredient;
+  const DetailScreenBody({super.key});
   @override
   Widget build(BuildContext context) {
+    final ingredient = ModalRoute.of(context)!.settings.arguments as Ingredient;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: SingleChildScrollView(
