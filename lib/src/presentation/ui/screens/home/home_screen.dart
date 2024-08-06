@@ -48,28 +48,7 @@ class HomeScreenBody extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Row(mainAxisSize: MainAxisSize.max, children: [
-            const Expanded(
-              flex: 3,
-              child: TextField(
-                maxLines: 1,
-                autocorrect: false,
-                keyboardType: TextInputType.name,
-                decoration: InputDecoration(border: OutlineInputBorder()),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: IconButton.filled(
-                onPressed: () async {
-                  Ingredient ingredient =
-                      await geminiProvider.getIngredientInformation("Azucar");
-                  ingredientDatabaseProvider.addIngredientToDb(ingredient);
-                },
-                icon: const Icon(Icons.search),
-              ),
-            )
-          ]),
+          Searchbar(),
           const Divider(),
           Expanded(
             child: Consumer<IngredientDatabaseProvider>(
@@ -80,8 +59,8 @@ class HomeScreenBody extends StatelessWidget {
                 return ListView.builder(
                   itemCount: value.ingredients.length,
                   itemBuilder: (context, i) => GestureDetector(
-                    onTap: () =>
-                        context.go("/detail", extra: value.ingredients[i]),
+                    onTap: () => Navigator.pushNamed(context, "detail",
+                        arguments: value.ingredients[i]),
                     child: Card(
                       child: ListTile(
                         title: Text(value.ingredients[i].name),
@@ -94,6 +73,56 @@ class HomeScreenBody extends StatelessWidget {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class Searchbar extends StatelessWidget {
+  const Searchbar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    String inputValue = "";
+    final _formKey = GlobalKey<FormState>();
+    return Form(
+      key: _formKey,
+      child: TextFormField(
+        maxLines: 1,
+        maxLength: 10,
+        onChanged: (value) => inputValue = value,
+        autocorrect: false,
+        decoration: InputDecoration(
+          hintText: "Insert your ingredient",
+          suffixIcon: IconButton.filled(
+            tooltip: "Search",
+            onPressed: () async {
+              if (_formKey.currentState!.validate()) {
+                print(inputValue);
+                Ingredient ingredient = await context
+                    .read<GeminiProvider>()
+                    .getIngredientInformation(inputValue);
+
+                Provider.of<IngredientDatabaseProvider>(context, listen: false)
+                    .addIngredientToDb(ingredient);
+              }
+            },
+            icon: const Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+          ),
+          border: const OutlineInputBorder(),
+        ),
+        keyboardType: TextInputType.name,
+        validator: (value) {
+          if (value == null || value.isEmpty || value == " ") {
+            return "Please enter a valid ingredient";
+          }
+          return null;
+        },
       ),
     );
   }
