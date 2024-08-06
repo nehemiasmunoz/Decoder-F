@@ -1,12 +1,27 @@
+import 'package:decoder/src/domain/models/ingredient/ingredient_model.dart';
 import 'package:decoder/src/presentation/ui/screens/screens.dart';
-import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AppRoutes {
-  static const String initialRoute = "home";
-
-  static Map<String, Widget Function(BuildContext)> routes = {
-    "home": (BuildContext context) => const HomeScreen(),
-    "detail": (BuildContext context) => const DetailScreen(),
-    "register": (ctx) => const UserRegisterScreen(),
-  };
+  static final routes = GoRouter(
+    routes: <RouteBase>[
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: '/detail',
+        builder: (context, state) {
+          final Ingredient ingredient = state.extra! as Ingredient;
+          return DetailScreen(
+            ingredient: ingredient,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/register',
+        builder: (context, state) => const UserRegisterScreen(),
+      )
+    ],
+  );
 }
