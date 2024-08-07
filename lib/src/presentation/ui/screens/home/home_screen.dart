@@ -3,7 +3,6 @@ import 'package:decoder/src/data/provider/ingredient/ingredient_database_provide
 import 'package:decoder/src/data/provider/user/user_database_provider.dart';
 import 'package:decoder/src/presentation/ui/components/components.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../domain/models/models.dart';
@@ -14,14 +13,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User user = context.watch<UserDatabaseProvider>().user;
-
     return Scaffold(
       drawer: Drawer(
         child: user.name == ""
             ? ElevatedButton(
-                onPressed: () {
-                  context.go("/register");
-                },
+                onPressed: () => Navigator.pushNamed(context, "register"),
                 child: const Text("Register"))
             : const DrawerMenu(),
       ),
@@ -39,10 +35,6 @@ class HomeScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GeminiProvider geminiProvider = Provider.of(context);
-    IngredientDatabaseProvider ingredientDatabaseProvider =
-        Provider.of(context);
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -100,11 +92,9 @@ class Searchbar extends StatelessWidget {
             tooltip: "Search",
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
-                print(inputValue);
                 Ingredient ingredient = await context
                     .read<GeminiProvider>()
                     .getIngredientInformation(inputValue);
-
                 Provider.of<IngredientDatabaseProvider>(context, listen: false)
                     .addIngredientToDb(ingredient);
               }

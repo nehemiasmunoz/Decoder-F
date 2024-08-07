@@ -25,8 +25,9 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider<UserDatabaseProvider>(
             create: (ctx) => UserDatabaseProvider()),
       ],
-      child: MaterialApp.router(
-        routerConfig: AppRoutes.routes,
+      child: MaterialApp(
+        initialRoute: AppRoutes.initialRoute,
+        routes: AppRoutes.routes,
       ),
     );
   }
