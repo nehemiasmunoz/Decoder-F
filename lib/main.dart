@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
+
 void main() async {
   await dotenv.load(fileName: ".env");
   runApp(const MainApp());
@@ -18,12 +19,12 @@ class MainApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<GeminiProvider>(
-            create: (ctx) => GeminiProvider()),
+            create: (_) => GeminiProvider()),
         ChangeNotifierProvider<IngredientDatabaseProvider>(
-            create: (ctx) => IngredientDatabaseProvider()),
-        ChangeNotifierProvider<UserForm>(create: (ctx) => UserForm()),
+            create: (_) => IngredientDatabaseProvider()),
+        ChangeNotifierProvider<UserForm>(create: (_) => UserForm()),
         ChangeNotifierProvider<UserDatabaseProvider>(
-            create: (ctx) => UserDatabaseProvider()),
+            create: (_) => UserDatabaseProvider()),
       ],
       child: MaterialApp(
         initialRoute: AppRoutes.initialRoute,
