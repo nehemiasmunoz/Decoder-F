@@ -15,20 +15,50 @@ class DrawerMenu extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: [
         UserAccountsDrawerHeader(
-          accountName: Text('User Name ${user.name}'),
-          accountEmail: Text("User Age ${user.age}"),
+          accountName: Text('Hi ${user.name}'),
+          accountEmail: Text("Age ${user.age}"),
         ),
         ListTile(
-          title: Text("Has Diabetes: ${user.hasDiabetes} "),
+          title: Text(
+            "Diabetes",
+            style: TextStyle(
+                decoration: user.hasDiabetes
+                    ? TextDecoration.none
+                    : TextDecoration.lineThrough),
+          ),
+          trailing: user.hasDiabetes
+              ? const Icon(
+                  Icons.check,
+                  color: Colors.green,
+                )
+              : const Icon(Icons.close, color: Colors.red),
         ),
         ListTile(
-          title: Text("Has Hypertension: ${user.hasHypertension}"),
+          title: Text(
+            "Hypertension",
+            style: TextStyle(
+                decoration: user.hasHypertension
+                    ? TextDecoration.none
+                    : TextDecoration.lineThrough),
+          ),
+          trailing: user.hasHypertension
+              ? const Icon(
+                  Icons.check,
+                  color: Colors.green,
+                )
+              : const Icon(Icons.close, color: Colors.red),
         ),
-        ListTile(
-          title: Text("Diabetes type: ${user.diabetesType} "),
+        Visibility(
+          visible: user.hasDiabetes,
+          child: ListTile(
+            title: Text("Diabetes type: ${user.diabetesType.name} "),
+          ),
         ),
-        ListTile(
-          title: Text("Hypertension type:${user.hypertensionType} "),
+        Visibility(
+          visible: user.hasHypertension,
+          child: ListTile(
+            title: Text("Hypertension type:${user.hypertensionType} "),
+          ),
         ),
         const Divider(),
         Row(
@@ -39,8 +69,14 @@ class DrawerMenu extends StatelessWidget {
               onPressed: () {
                 Provider.of<UserDatabaseProvider>(context, listen: false)
                     .deleteUserData(user);
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("User: ${user.name} Deleted")));
               },
-              icon: const Icon(Icons.delete),
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.red,
+              ),
             )
           ],
         )
