@@ -5,7 +5,7 @@ import '../providers.dart';
 
 class IngredientSearchProvider extends ChangeNotifier {
   final TextEditingController ingredientNameController =
-      TextEditingController();
+      TextEditingController(text: "");
   final formKey = GlobalKey<FormState>();
 
   String? validateIngredient(String? value) {
@@ -18,15 +18,23 @@ class IngredientSearchProvider extends ChangeNotifier {
   void submitForm(BuildContext context) {
     if (formKey.currentState!.validate()) {
       context
-          .read<GeminiProvider>()
-          .getIngredientInformation(ingredientNameController.text)
-          .then(
-        (ingredient) {
-          Provider.of<IngredientDatabaseProvider>(context, listen: false)
-              .addIngredientToDb(ingredient);
-        },
-      );
+          .read<IngredientDatabaseProvider>()
+          .getIngredientIfExist(ingredientNameController.text)
+          .then((ingredient) {
+        if (ingredient.name != "") {
+          Navigator.pushNamed(context, "detail", arguments: ingredient);
+          return;
+        }
+        context
+            .read<GeminiProvider>()
+            .getIngredientInformation(ingredientNameController.text)
+            .then(
+          (ingredient) {
+            Provider.of<IngredientDatabaseProvider>(context, listen: false)
+                .addIngredientToDb(ingredient);
+          },
+        );
+      });
     }
-    ingredientNameController.text = "";
   }
 }

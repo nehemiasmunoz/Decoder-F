@@ -9,6 +9,12 @@ class IngredientDatabaseProvider extends ChangeNotifier {
     return _ingredients;
   }
 
+  Future<Ingredient> getIngredientIfExist(String name) {
+    final ingredient = IngredientRepositoryImpl().getIngredientIfExist(name);
+    notifyListeners();
+    return ingredient;
+  }
+
   void getIngredientsFromDb() async {
     _ingredients = await IngredientRepositoryImpl().getIngredientsList();
     notifyListeners();
