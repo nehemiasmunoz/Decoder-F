@@ -18,7 +18,7 @@ class Searchbar extends StatelessWidget {
             maxLines: 1,
             keyboardType: TextInputType.name,
             validator: (value) => model.validateIngredient(value),
-            maxLength: 10,
+            maxLength: 20,
             autocorrect: false,
             decoration: InputDecoration(
               hintText: "Insert your ingredient",
