@@ -1,6 +1,7 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../domain/models/models.dart';
 import '../providers.dart';
 
 class IngredientSearchProvider extends ChangeNotifier {
@@ -16,6 +17,14 @@ class IngredientSearchProvider extends ChangeNotifier {
   }
 
   void submitForm(BuildContext context) {
+    User user = context.read<UserDatabaseProvider>().user;
+    if (user.name == "") {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("You have to complete the register first")));
+      Future.delayed(const Duration(seconds: 1));
+      Navigator.pushNamed(context, "register");
+      return;
+    }
     if (formKey.currentState!.validate()) {
       context
           .read<IngredientDatabaseProvider>()
