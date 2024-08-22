@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
+import '../../../domain/models/models.dart';
+
 class GeminiService {
   GeminiService();
   static final GeminiService instance = GeminiService();
@@ -44,8 +46,27 @@ class GeminiService {
     ]),
   ]);
 
-  Future<Map<String, Object?>> fetchResponse(String ingredientName) async {
-    final content = Content.text(ingredientName);
+  Future<Map<String, Object?>> fetchResponse(
+      String ingredientName, User user) async {
+    final prompt =
+        """Provide a detailed description of the provided substance or product, including its potential health effects. 
+        for a person with ${user.age} years,
+        diabetes: ${user.hasDiabetes},
+        hypertension: ${user.hasHypertension},
+        hypertensionType: ${user.hypertensionType.name},
+        diabetesType: ${user.diabetesType.name},
+        Structure the response in the following JSON format:
+          {
+          "description": "<Detailed description of the substance or product>",
+          "recommendedForMe": <True or False>,
+          "diabeticReasons": ["<Reason 1>", "<Reason 2>", ...],
+          "hypertensiveReasons": ["<Reason 1>", "<Reason 2>", ...]
+          }
+          "substance": "$ingredientName"
+          }
+          If the provided sustance is not consumable by humans just answer with the same json but with empty values
+        """;
+    final content = Content.text(prompt);
     final response = await chat.sendMessage(content);
     return jsonDecode(response.text!);
   }

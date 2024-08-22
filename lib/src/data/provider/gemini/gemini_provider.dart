@@ -1,18 +1,20 @@
 import 'package:decoder/src/data/provider/ingredient/ingredient_database_provider.dart';
 import 'package:decoder/src/data/services/gemini/gemini_service.dart';
-import 'package:decoder/src/domain/models/ingredient/ingredient_model.dart';
 import 'package:flutter/material.dart';
+
+import '../../../domain/models/models.dart';
 
 class GeminiProvider extends ChangeNotifier {
   GeminiService geminiService = GeminiService();
   IngredientDatabaseProvider ingredientDatabaseProvider =
       IngredientDatabaseProvider();
 
-  Future<Ingredient> getIngredientInformation(String ingredientName) async {
+  Future<Ingredient> getIngredientInformation(
+      String ingredientName, User user) async {
     Ingredient newIngredient;
     try {
       // Fetch the response asynchronously
-      final response = await geminiService.fetchResponse(ingredientName);
+      final response = await geminiService.fetchResponse(ingredientName, user);
 
       // Create the new Ingredient from the response
       newIngredient = Ingredient.fromGeminiMap(response);
