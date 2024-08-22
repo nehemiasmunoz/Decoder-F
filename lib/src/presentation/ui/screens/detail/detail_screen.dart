@@ -6,21 +6,22 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ingredient = ModalRoute.of(context)!.settings.arguments as Ingredient;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Ingredient name"),
+        centerTitle: true,
+        title: Text(ingredient.name),
       ),
-      body: const DetailScreenBody(),
+      body: DetailScreenBody(ingredient: ingredient),
     );
   }
 }
 
 class DetailScreenBody extends StatelessWidget {
-  const DetailScreenBody({super.key});
+  const DetailScreenBody({super.key, required this.ingredient});
+  final Ingredient ingredient;
   @override
   Widget build(BuildContext context) {
-    final ingredient = ModalRoute.of(context)!.settings.arguments as Ingredient;
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: SingleChildScrollView(
@@ -28,26 +29,22 @@ class DetailScreenBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text("Description:"),
-            Text(ingredient == null ? "" : "${ingredient?.description}"),
+            Text(ingredient.description),
             const Divider(),
             const Text("Recommended for diabetics"),
-            Text(ingredient == null
-                ? ""
-                : "${ingredient?.recommendedForDiabetics}"),
+            Text(ingredient.recommendedForDiabetics.toString()),
             const Divider(),
             const Text("Recommended for hypertensive"),
             Text(
-              ingredient == null
-                  ? ""
-                  : "${ingredient?.recommendedForHypertensives}",
+              ingredient.recommendedForHypertensives.toString(),
             ),
             const Divider(),
             const Text("Diabetics reasons"),
-            Text(ingredient == null ? "" : "${ingredient?.diabeticsReasons}"),
+            Text(ingredient.diabeticsReasons.replaceAll(RegExp(r'[\[\]]'), '')),
             const Divider(),
             const Text("Hypertensive reasons"),
-            Text(
-                ingredient == null ? "" : "${ingredient?.hypertensiveReasons}"),
+            Text(ingredient.hypertensiveReasons
+                .replaceAll(RegExp(r'[\[\]]'), '')),
           ],
         ),
       ),
