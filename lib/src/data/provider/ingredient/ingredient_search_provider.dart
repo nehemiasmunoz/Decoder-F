@@ -36,9 +36,14 @@ class IngredientSearchProvider extends ChangeNotifier {
         }
         context
             .read<GeminiProvider>()
-            .getIngredientInformation(ingredientNameController.text)
+            .getIngredientInformation(ingredientNameController.text, user)
             .then(
           (ingredient) {
+            if (ingredient.description == "") {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Invalid ingredient")));
+              return;
+            }
             Provider.of<IngredientDatabaseProvider>(context, listen: false)
                 .addIngredientToDb(ingredient);
           },
