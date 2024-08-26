@@ -19,46 +19,10 @@ class DrawerMenu extends StatelessWidget {
           accountEmail: Text("Age ${user.age}"),
         ),
         ListTile(
-          title: Text(
-            "Diabetes",
-            style: TextStyle(
-                decoration: user.hasDiabetes
-                    ? TextDecoration.none
-                    : TextDecoration.lineThrough),
-          ),
-          trailing: user.hasDiabetes
-              ? const Icon(
-                  Icons.check,
-                  color: Colors.green,
-                )
-              : const Icon(Icons.close, color: Colors.red),
+          title: Text("Diabetes type: ${user.diabetesType.name} "),
         ),
         ListTile(
-          title: Text(
-            "Hypertension",
-            style: TextStyle(
-                decoration: user.hasHypertension
-                    ? TextDecoration.none
-                    : TextDecoration.lineThrough),
-          ),
-          trailing: user.hasHypertension
-              ? const Icon(
-                  Icons.check,
-                  color: Colors.green,
-                )
-              : const Icon(Icons.close, color: Colors.red),
-        ),
-        Visibility(
-          visible: user.hasDiabetes,
-          child: ListTile(
-            title: Text("Diabetes type: ${user.diabetesType.name} "),
-          ),
-        ),
-        Visibility(
-          visible: user.hasHypertension,
-          child: ListTile(
-            title: Text("Hypertension type:${user.hypertensionType} "),
-          ),
+          title: Text("Hypertension type:${user.hypertensionType} "),
         ),
         const Divider(),
         Row(
