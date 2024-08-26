@@ -40,62 +40,45 @@ class UserRegisterScreen extends StatelessWidget {
                   onChanged: (val) => form.newUser.age = int.parse(val),
                   validator: (val) => form.validateAge(val),
                 ),
-                CustomCheckbox(
-                  isChecked: form.newUser.hasDiabetes,
-                  title: "Diabetes",
-                  onChanged: (val) =>
-                      Provider.of<UserForm>(context, listen: false)
-                          .toggleDiabetes(),
-                ),
-                Visibility(
-                  visible: form.newUser.hasDiabetes,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(width: .5),
-                        borderRadius: BorderRadius.circular(5)),
-                    child: DropdownButton<Diabetes>(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 10),
-                      isExpanded: true,
-                      items: Diabetes.values.map((Diabetes item) {
-                        return DropdownMenuItem(
-                          value: item,
-                          child: Text(item.type),
-                        );
-                      }).toList(),
-                      onChanged: (Diabetes? value) => form.setDiabetes(value!),
-                      value: form.newUser.diabetesType,
-                    ),
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(width: .5),
+                      borderRadius: BorderRadius.circular(5)),
+                  child: DropdownButton<Diabetes>(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    isExpanded: true,
+                    items: Diabetes.values.map((Diabetes item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Text(item.type),
+                      );
+                    }).toList(),
+                    onChanged: (Diabetes? value) => form.setDiabetes(value!),
+                    value: form.newUser.diabetesType,
                   ),
                 ),
-                CustomCheckbox(
-                  title: "Hypertension",
-                  isChecked: form.newUser.hasHypertension,
-                  onChanged: (val) =>
-                      Provider.of<UserForm>(context, listen: false)
-                          .toggleHypertension(),
+                const SizedBox(
+                  height: 20,
                 ),
-                Visibility(
-                  visible: form.newUser.hasHypertension,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(width: .5),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: DropdownButton<Hypertension>(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 10),
-                      isExpanded: true,
-                      items: Hypertension.values.map((Hypertension item) {
-                        return DropdownMenuItem(
-                          value: item,
-                          child: Text(item.type),
-                        );
-                      }).toList(),
-                      onChanged: (Hypertension? value) =>
-                          form.setHypertension(value!),
-                      value: form.newUser.hypertensionType,
-                    ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: .5),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: DropdownButton<Hypertension>(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    isExpanded: true,
+                    items: Hypertension.values.map((Hypertension item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Text(item.type),
+                      );
+                    }).toList(),
+                    onChanged: (Hypertension? value) =>
+                        form.setHypertension(value!),
+                    value: form.newUser.hypertensionType,
                   ),
                 ),
                 const SizedBox(
