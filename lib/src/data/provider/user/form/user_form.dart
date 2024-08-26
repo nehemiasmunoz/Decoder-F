@@ -5,19 +5,8 @@ import 'package:flutter/material.dart';
 
 class UserForm extends ChangeNotifier {
   final _formKey = GlobalKey<FormState>();
-  User newUser = User.withParameters(
-      "", 0, false, false, Diabetes.none, Hypertension.none);
+  User newUser = User.withParameters("", 0, Diabetes.none, Hypertension.none);
   GlobalKey<FormState> get formKey => _formKey;
-
-  void toggleDiabetes() {
-    newUser.toggleHasDiabetes();
-    notifyListeners();
-  }
-
-  void toggleHypertension() {
-    newUser.toggleHasHypertension();
-    notifyListeners();
-  }
 
   void setDiabetes(Diabetes newValue) {
     newUser.diabetesType = newValue;
