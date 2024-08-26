@@ -11,24 +11,35 @@ class IngredientTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onLongPress: () {
-        context
-            .read<IngredientDatabaseProvider>()
-            .deleteIngredientFormDb(ingredient);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              "${ingredient.name} Has been deleted",
-            ),
-          ),
-        );
-      },
       onTap: () =>
           Navigator.pushNamed(context, "detail", arguments: ingredient),
       child: Card(
-        child: ListTile(
-          title: Text(ingredient.name),
-          trailing: const Icon(Icons.arrow_forward_ios_sharp),
+        child: Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  context
+                      .read<IngredientDatabaseProvider>()
+                      .deleteIngredientFormDb(ingredient);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        "${ingredient.name} Has been deleted",
+                      ),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                )),
+            Expanded(
+              child: ListTile(
+                title: Text(ingredient.name),
+                trailing: const Icon(Icons.arrow_forward_ios_sharp),
+              ),
+            ),
+          ],
         ),
       ),
     );
