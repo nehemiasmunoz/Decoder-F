@@ -6,8 +6,6 @@ class DatabaseTables {
          $userColumnId INTEGER PRIMARY KEY AUTOINCREMENT,
           $userColumnName TEXT NOT NULL,
           $userColumnAge INTEGER NOT NULL,
-          $userColumnHasDiabetes BOOLEAN NOT NULL,
-          $userColumnHasHypertension BOOLEAN NOT NULL,
           $userColumnDiabetesType TEXT,
           $userColumnHypertensionType TEXT
         )''',

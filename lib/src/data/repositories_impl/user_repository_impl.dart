@@ -18,8 +18,6 @@ class UserRepositoryImpl implements UserRepository {
       userColumnId,
       userColumnName,
       userColumnAge,
-      userColumnHasDiabetes,
-      userColumnHasHypertension,
       userColumnDiabetesType,
       userColumnHypertensionType
     ]);
