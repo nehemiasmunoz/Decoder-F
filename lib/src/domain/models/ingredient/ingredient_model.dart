@@ -25,7 +25,7 @@ class Ingredient {
     return map;
   }
 
-  Ingredient.fromGeminiMap(Map<String, Object?> map) {
+  Ingredient.toObject(Map<String, Object?> map) {
     description = map[ingredientColumnDescription].toString();
     recommendedForDiabetics =
         map[ingredientColumnRecommendedForDiabetics] == 1 ? true : false;

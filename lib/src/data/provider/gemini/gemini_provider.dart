@@ -17,7 +17,7 @@ class GeminiProvider extends ChangeNotifier {
       final response = await geminiService.fetchResponse(ingredientName, user);
 
       // Create the new Ingredient from the response
-      newIngredient = Ingredient.fromGeminiMap(response);
+      newIngredient = Ingredient.toObject(response);
       newIngredient.id = 1;
       newIngredient.name = ingredientName;
     } catch (e) {
