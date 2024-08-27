@@ -22,7 +22,7 @@ class DrawerMenu extends StatelessWidget {
           title: Text("Diabetes type: ${user.diabetesType.name} "),
         ),
         ListTile(
-          title: Text("Hypertension type:${user.hypertensionType} "),
+          title: Text("Hypertension type:${user.hypertensionType.name} "),
         ),
         const Divider(),
         Row(
