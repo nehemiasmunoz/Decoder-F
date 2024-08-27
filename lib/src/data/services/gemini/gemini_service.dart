@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:decoder/src/data/util/constants.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
@@ -18,54 +19,54 @@ class GeminiService {
       maxOutputTokens: 8192,
       responseMimeType: 'application/json',
     ),
+    systemInstruction: Content.system(
+        '"Provide a detailed description of the provided substance or product, including its potential health effects. Consider the following factors:\nSubstance: Sugar\nAge: 23 years\nHypertension Type: none\nDiabetes Type: none\nResponse Format:\n\nPlease structure the response in the following JSON format:\n\n{\n  "$ingredientColumnDescription": "<Detailed description of the substance or product>",\n  "$ingredientColumnRecommendedForMe": <True or False>,\n  "$ingredientColumnDiabeticsReasons": ["<Reason 1>", "<Reason 2>", ...],\n  "$ingredientColumnHypertensiveReasons": ["<Reason 1>", "<Reason 2>", ...],\n  "substance": "..."\n}\n###\n$ingredientColumnDescription: Provide a detailed description of the substance or product, including any known health effects, particularly in relation to the user\'s age, hypertension type, and diabetes type.\n$ingredientColumnRecommendedForMe: Return True if the substance is generally recommended for a person with the specified health conditions; otherwise, return False.\n$ingredientColumnDiabeticsReasons: List reasons why this substance is recommended or not recommended for diabetics. Include specific effects related to the user\'s diabetes type.\n$ingredientColumnHypertensiveReasons: List reasons why this substance is recommended or not recommended for individuals with hypertension. Include specific effects related to the user\'s hypertension type.\nsubstance: Provide the name of the substance.\nSpecial Instructions:\n\nIf the substance is not consumable by humans, respond with the same JSON structure, but leave all fields empty, except for the substance field.\nEnsure that all fields are filled with accurate and relevant information based on the provided health conditions.\n###'),
   );
   late final chat = model.startChat(history: [
     Content.multi([
       TextPart(
-          'Provide a detailed description of the provided substance or product, including its potential health effects.  for a woman with 23 years, diabetes: false, hypertension: true, hypertensionType: Primary, diabetesType: None, Structure the response in the following JSON format:\n\n  {\n    \\"description\\": \\"<Detailed description of the substance or product>\\",\n    \\"recommendedForDiabetics\\": <True or False>,\n    \\"recommendedForHypertensives\\": <True or False>,\n    \\"diabeticReasons\\": [\\"<Reason 1>\\", \\"<Reason 2>\\", ...],\n    \\"hypertensiveReasons\\": [\\"<Reason 1>\\", \\"<Reason 2>\\", ...]\n  }\n  "substance": "Sugar"\n}'),
+          '"Provide a detailed description of the provided substance or product, including its potential health effects. Consider the following factors:\nSubstance: Sugar\nAge: 23 years\nHypertension Type: none\nDiabetes Type: none'),
     ]),
     Content.model([
       TextPart(
-          '```json\n{\n  "description": "Sugar, also known as sucrose, is a disaccharide composed of glucose and fructose. It is a naturally occurring carbohydrate found in many fruits, vegetables, and grains. Sugar is also widely added to processed foods and drinks as a sweetener. It is a readily digestible source of energy, but excessive consumption can contribute to various health problems.",\n  "recommendedForDiabetics": false,\n  "recommendedForHypertensives": false,\n  "diabeticReasons": [\n    "High sugar intake can lead to blood sugar spikes and crashes, making it difficult to manage blood glucose levels.",\n    "Excessive sugar consumption can contribute to insulin resistance, increasing the risk of developing type 2 diabetes."\n  ],\n  "hypertensiveReasons": [\n    "High sugar intake can lead to weight gain, which is a risk factor for hypertension.",\n    "Sugar can increase inflammation in the body, potentially contributing to hypertension."\n  ]\n}\n``` \n'),
+          '```json\n{"$ingredientColumnDescription": "Sugar, also known as sucrose, is a naturally occurring carbohydrate found in many plants. It\'s a common sweetener used in food and beverages. While sugar is a source of energy, consuming excessive amounts can lead to health issues. High sugar intake has been linked to weight gain, increased risk of type 2 diabetes, heart disease, and tooth decay. It\'s essential to consume sugar in moderation as part of a balanced diet.", "$ingredientColumnRecommendedForMe": false, "$ingredientColumnDiabeticsReasons": ["Excessive sugar consumption can significantly worsen blood sugar control in individuals with diabetes.", "It can lead to spikes in blood glucose levels, potentially increasing the risk of complications."], "$ingredientColumnHypertensiveReasons": ["High sugar intake can contribute to weight gain, which is a risk factor for hypertension.", "Sugar can also increase insulin resistance, potentially leading to elevated blood pressure."], "substance": "Sugar"}\n\n```'),
     ]),
     Content.multi([
       TextPart(
-          'Provide a detailed description of the provided substance or product, including its potential health effects.  for a woman with 23 years, diabetes: false, hypertension: true, hypertensionType: Primary, diabetesType: None, Structure the response in the following JSON format:\n\n  {\n    \\"description\\": \\"<Detailed description of the substance or product>\\",\n    \\"recommendedForDiabetics\\": <True or False>,\n    \\"recommendedForHypertensives\\": <True or False>,\n    \\"diabeticReasons\\": [\\"<Reason 1>\\", \\"<Reason 2>\\", ...],\n    \\"hypertensiveReasons\\": [\\"<Reason 1>\\", \\"<Reason 2>\\", ...]\n  }\n  "substance": "Jarabe de Fructosa"\n}'),
+          '"Provide a detailed description of the provided substance or product, including its potential health effects. Consider the following factors:\nSubstance: Sugar\nAge: 23 years\nHypertension Type: primary\nDiabetes Type: primary'),
     ]),
     Content.model([
       TextPart(
-          '```json\n{\n  "description": "Jarabe de Fructosa, also known as high-fructose corn syrup (HFCS), is a sweetener made from cornstarch. It\'s widely used in processed foods and beverages due to its low cost and sweetening power.  HFCS is primarily composed of fructose, a simple sugar, and a smaller amount of glucose. Unlike sugar, which is a 50/50 mix of glucose and fructose, HFCS can have varying ratios of these sugars.",\n  "recommendedForDiabetics": false,\n  "recommendedForHypertensives": false,\n  "diabeticReasons": [\n    "Fructose, the primary component of HFCS, is metabolized differently than glucose. It doesn\'t stimulate insulin release, leading to a greater risk of insulin resistance and potential development of type 2 diabetes.",\n    "HFCS consumption can contribute to increased triglyceride levels and decreased HDL (good cholesterol) levels, further increasing diabetes risk."\n  ],\n  "hypertensiveReasons": [\n    "High fructose intake can contribute to weight gain and abdominal fat accumulation, both strong risk factors for hypertension.",\n    "HFCS can increase uric acid levels, a potential factor in metabolic syndrome, which can lead to hypertension.",\n    "Research suggests a possible link between HFCS consumption and increased blood pressure."\n  ]\n}\n``` \n'),
+          '```json\n{"$ingredientColumnDescription": "Sugar, also known as sucrose, is a naturally occurring carbohydrate found in many plants. It\'s a common sweetener used in food and beverages. While sugar is a source of energy, consuming excessive amounts can lead to health issues. For individuals with diabetes, managing blood sugar levels is crucial. High sugar intake can significantly worsen blood sugar control, increasing the risk of complications. For those with primary hypertension, high sugar consumption can contribute to weight gain, which is a risk factor for hypertension. It can also increase insulin resistance, potentially leading to elevated blood pressure. It\'s crucial for individuals with both diabetes and hypertension to limit sugar intake and focus on a balanced diet with minimal processed foods.", "$ingredientColumnRecommendedForMe": false, "$ingredientColumnDiabeticsReasons": ["Excessive sugar consumption can significantly worsen blood sugar control in individuals with diabetes.", "It can lead to spikes in blood glucose levels, potentially increasing the risk of complications."], "$ingredientColumnHypertensiveReasons": ["High sugar intake can contribute to weight gain, which is a risk factor for hypertension.", "Sugar can also increase insulin resistance, potentially leading to elevated blood pressure."], "substance": "Sugar"}\n\n```'),
     ]),
     Content.multi([
       TextPart(
-          'Provide a detailed description of the provided substance or product, including its potential health effects.  for a woman with 23 years, diabetes: false, hypertension: true, hypertensionType: Primary, diabetesType: None, Structure the response in the following JSON format:\n\n  {\n    \\"description\\": \\"<Detailed description of the substance or product>\\",\n    \\"recommendedForDiabetics\\": <True or False>,\n    \\"recommendedForHypertensives\\": <True or False>,\n    \\"diabeticReasons\\": [\\"<Reason 1>\\", \\"<Reason 2>\\", ...],\n    \\"hypertensiveReasons\\": [\\"<Reason 1>\\", \\"<Reason 2>\\", ...]\n  }\n  "substance": "Soya"\n}'),
+          '"Provide a detailed description of the provided substance or product, including its potential health effects. Consider the following factors:\nSubstance: Salt\nAge: 54 years\nHypertension Type: primary\nDiabetes Type: none'),
     ]),
     Content.model([
       TextPart(
-          '```json\n{\n  "description": "Soya, also known as soybean, is a legume rich in protein, fiber, and various vitamins and minerals. It\'s a versatile ingredient used in numerous forms, including soy milk, tofu, tempeh, edamame, and soy protein isolates.  Soya is often touted for its health benefits, particularly for individuals with dietary restrictions or those seeking plant-based protein sources.",\n  "recommendedForDiabetics": true,\n  "recommendedForHypertensives": true,\n  "diabeticReasons": [\n    "Soya protein can help regulate blood sugar levels. Studies suggest that it may improve insulin sensitivity and help control blood glucose.",\n    "The high fiber content in soya can help slow down the absorption of sugar, preventing sudden blood sugar spikes."\n  ],\n  "hypertensiveReasons": [\n    "Soya protein can help lower blood pressure. Some studies suggest that it may reduce both systolic and diastolic blood pressure.",\n    "Soya contains peptides that can inhibit the angiotensin-converting enzyme (ACE), which helps relax blood vessels and lower blood pressure."\n  ]\n}\n``` \n'),
+          '```json\n{"$ingredientColumnDescription": "Salt, primarily composed of sodium chloride, is an essential nutrient for human health. It plays a crucial role in maintaining fluid balance, nerve impulse transmission, and muscle contraction. However, excessive salt intake can contribute to various health problems, especially for individuals with pre-existing conditions like hypertension. For a 54-year-old individual with primary hypertension, limiting salt intake is crucial. Excessive salt consumption can raise blood pressure, potentially worsening hypertension symptoms and increasing the risk of cardiovascular complications. It\'s recommended to consume salt in moderation and focus on a diet rich in potassium, which can help counter the effects of sodium.", "$ingredientColumnRecommendedForMe": false, "$ingredientColumnDiabeticsReasons": [], "$ingredientColumnHypertensiveReasons": ["Excessive salt intake can raise blood pressure, potentially worsening hypertension symptoms and increasing the risk of cardiovascular complications.", "Limiting salt intake is essential for managing hypertension."], "substance": "Salt"}\n\n```'),
+    ]),
+    Content.multi([
+      TextPart(
+          '"Provide a detailed description of the provided substance or product, including its potential health effects. Consider the following factors:\nSubstance: Tornillo\nAge: 23 years\nHypertension Type: none\nDiabetes Type: none'),
+    ]),
+    Content.model([
+      TextPart(
+          '```json\n{"$ingredientColumnDescription": "", "$ingredientColumnRecommendedForMe": false, "$ingredientColumnDiabeticsReasons": [], "$ingredientColumnHypertensiveReasons": [], "substance": "Tornillo"}\n\n```'),
     ]),
   ]);
 
   Future<Map<String, Object?>> fetchResponse(
       String ingredientName, User user) async {
-    final prompt =
-        """Provide a detailed description of the provided substance or product, including its potential health effects. 
-        for a person with ${user.age} years,
-        diabetes: ${user.hasDiabetes},
-        hypertension: ${user.hasHypertension},
-        hypertensionType: ${user.hypertensionType.name},
-        diabetesType: ${user.diabetesType.name},
-        Structure the response in the following JSON format:
-          {
-          "description": "<Detailed description of the substance or product>",
-          "recommendedForMe": <True or False>,
-          "diabeticReasons": ["<Reason 1>", "<Reason 2>", ...],
-          "hypertensiveReasons": ["<Reason 1>", "<Reason 2>", ...]
-          }
-          "substance": "$ingredientName"
-          }
-          If the provided sustance is not consumable by humans just answer with the same json but with empty values
-        """;
+    final prompt = """
+        Provide a detailed description of the provided substance or product, including its potential health effects. Consider the following factors:
+        Substance: $ingredientName
+        Age: ${user.age} years
+        Hypertension Type: ${user.diabetesType.name}
+        Diabetes Type: ${user.hypertensionType.name}      
+    """;
+
     final content = Content.text(prompt);
     final response = await chat.sendMessage(content);
     return jsonDecode(response.text!);
