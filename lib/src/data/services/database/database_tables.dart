@@ -13,8 +13,7 @@ class DatabaseTables {
           $ingredientColumnId INTEGER PRIMARY KEY AUTOINCREMENT,
           $ingredientColumnName TEXT NOT NULL,
           $ingredientColumnDescription TEXT NOT NULL,
-          $ingredientColumnRecommendedForDiabetics BOOLEAN NOT NULL,
-          $ingredientColumnRecommendeForHypertensive BOOLEAN NOT NULL,
+          $ingredientColumnRecommendedForMe BOOLEAN NOT NULL,
           $ingredientColumnDiabeticsReasons TEXT,
           $ingredientColumnHypertensiveReasons TEXT
         )'''

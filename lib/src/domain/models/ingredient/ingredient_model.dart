@@ -4,8 +4,7 @@ class Ingredient {
   int id = 1;
   String name = "";
   String description = "";
-  bool recommendedForDiabetics = false;
-  bool recommendedForHypertensives = false;
+  bool recommendedForMe = false;
   String diabeticsReasons = "";
   String hypertensiveReasons = "";
 
@@ -15,10 +14,7 @@ class Ingredient {
     var map = <String, Object?>{
       ingredientColumnName: name,
       ingredientColumnDescription: description,
-      ingredientColumnRecommendedForDiabetics:
-          recommendedForDiabetics == true ? 1 : 0,
-      ingredientColumnRecommendeForHypertensive:
-          recommendedForHypertensives == true ? 1 : 0,
+      ingredientColumnRecommendedForMe: recommendedForMe == true ? 1 : 0,
       ingredientColumnDiabeticsReasons: diabeticsReasons,
       ingredientColumnHypertensiveReasons: hypertensiveReasons
     };
@@ -27,10 +23,8 @@ class Ingredient {
 
   Ingredient.toObject(Map<String, Object?> map) {
     description = map[ingredientColumnDescription].toString();
-    recommendedForDiabetics =
-        map[ingredientColumnRecommendedForDiabetics] == 1 ? true : false;
-    recommendedForHypertensives =
-        map[ingredientColumnRecommendeForHypertensive] == 1 ? true : false;
+    recommendedForMe =
+        bool.parse(map[ingredientColumnRecommendedForMe].toString());
     diabeticsReasons = map[ingredientColumnDiabeticsReasons].toString();
     hypertensiveReasons = map[ingredientColumnHypertensiveReasons].toString();
   }
@@ -39,10 +33,8 @@ class Ingredient {
     id = int.parse(map[ingredientColumnId].toString());
     name = map[ingredientColumnName].toString();
     description = map[ingredientColumnDescription].toString();
-    recommendedForDiabetics =
-        map[ingredientColumnRecommendedForDiabetics] == 1 ? true : false;
-    recommendedForHypertensives =
-        map[ingredientColumnRecommendeForHypertensive] == 1 ? true : false;
+    recommendedForMe =
+        map[ingredientColumnRecommendedForMe] == 1 ? true : false;
     diabeticsReasons = map[ingredientColumnDiabeticsReasons].toString();
     hypertensiveReasons = map[ingredientColumnHypertensiveReasons].toString();
   }
