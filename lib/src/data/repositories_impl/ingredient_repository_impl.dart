@@ -5,14 +5,14 @@ import 'package:decoder/src/domain/repositories/ingredient_repository.dart';
 import '../services/database_service.dart';
 
 class IngredientRepositoryImpl implements IngredientRepository {
-  Future<Ingredient> getIngredientIfExist(String name) async {
+  Future<Ingredient?> getIngredientIfExist(String name) async {
     final db = await DatabaseService.instance.database;
     final dbIngredient = await db.rawQuery(
         'SELECT * FROM $ingredientTableName WHERE $ingredientColumnName = "$name"');
     if (dbIngredient.isNotEmpty) {
       return Ingredient.fromDBMap(dbIngredient.first);
     }
-    return Ingredient();
+    return null;
   }
 
   @override
