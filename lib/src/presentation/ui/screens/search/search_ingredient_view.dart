@@ -1,5 +1,4 @@
 import 'package:decoder/src/data/provider/ingredient/ingredient_search_provider.dart';
-import 'package:decoder/src/data/provider/user/user_database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -51,18 +50,45 @@ class SearchIngredientView extends StatelessWidget {
                   height: size.height * .01,
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     User user = context.read<UserDatabaseProvider>().user;
                     if (user.name == "") {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
                           content:
-                              Text("You have to complete the register first")));
+                              Text("You have to complete the register first"),
+                        ),
+                      );
                       Future.delayed(const Duration(seconds: 1));
                       Navigator.pushNamed(context, "register");
                       return;
                     }
                     if (!model.isFormValid) return;
-                    model.submitForm(context, user);
+
+                    final ingredient = await model.submitForm(context, user);
+                    if (ingredient != null) {
+                      if (!context.mounted) return;
+                      Navigator.pushNamed(context, "detail",
+                          arguments: ingredient);
+                    } else {
+                      if (!context.mounted) return;
+                      final data = await model.getDataFromGemini(context, user);
+
+                      if (data.description == "") {
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text("Invalid ingredient"),
+                        ));
+                      } else {
+                        if (!context.mounted) return;
+                        Provider.of<IngredientDatabaseProvider>(context,
+                                listen: false)
+                            .addIngredientToDb(data);
+                      }
+                    }
+                    model.ingredientNameController.clear();
+                    Navigator.pop(context);
                   },
                   child: const Text("Search"),
                 )
