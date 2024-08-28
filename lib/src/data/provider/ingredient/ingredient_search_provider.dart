@@ -6,7 +6,7 @@ import '../providers.dart';
 
 class IngredientSearchProvider extends ChangeNotifier {
   final TextEditingController ingredientNameController =
-      TextEditingController(text: "");
+      TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   bool get isFormValid {
@@ -20,32 +20,17 @@ class IngredientSearchProvider extends ChangeNotifier {
     return null;
   }
 
-  void submitForm(BuildContext context, User user) {
-    context
+  Future<Ingredient?> submitForm(BuildContext context, User user) async {
+    final ingredient = await context
         .read<IngredientDatabaseProvider>()
-        .getIngredientIfExist(ingredientNameController.text)
-        .then((ingredient) {
-      if (ingredient != null) {
-        Navigator.pushNamed(context, "detail", arguments: ingredient);
-        return;
-      }
-      context
-          .read<GeminiProvider>()
-          .getIngredientInformation(ingredientNameController.text, user)
-          .then(
-        (ingredient) {
-          if (ingredient.description == "") {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("Invalid ingredient"),
-              ),
-            );
-            return;
-          }
-          Provider.of<IngredientDatabaseProvider>(context, listen: false)
-              .addIngredientToDb(ingredient);
-        },
-      );
-    });
+        .getIngredientIfExist(ingredientNameController.text);
+    return ingredient;
+  }
+
+  Future<Ingredient> getDataFromGemini(BuildContext context, user) async {
+    final data = await context
+        .read<GeminiProvider>()
+        .getIngredientInformation(ingredientNameController.text, user);
+    return data;
   }
 }
