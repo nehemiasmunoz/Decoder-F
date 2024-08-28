@@ -9,6 +9,10 @@ class IngredientSearchProvider extends ChangeNotifier {
       TextEditingController(text: "");
   final formKey = GlobalKey<FormState>();
 
+  bool get isFormValid {
+    return formKey.currentState!.validate();
+  }
+
   String? validateIngredient(String? value) {
     if (value == null || value.isEmpty || value == " ") {
       return "Please enter a valid ingredient";
@@ -16,39 +20,32 @@ class IngredientSearchProvider extends ChangeNotifier {
     return null;
   }
 
-  void submitForm(BuildContext context) {
-    User user = context.read<UserDatabaseProvider>().user;
-    if (user.name == "") {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("You have to complete the register first")));
-      Future.delayed(const Duration(seconds: 1));
-      Navigator.pushNamed(context, "register");
-      return;
-    }
-    if (formKey.currentState!.validate()) {
+  void submitForm(BuildContext context, User user) {
+    context
+        .read<IngredientDatabaseProvider>()
+        .getIngredientIfExist(ingredientNameController.text)
+        .then((ingredient) {
+      if (ingredient != null) {
+        Navigator.pushNamed(context, "detail", arguments: ingredient);
+        return;
+      }
       context
-          .read<IngredientDatabaseProvider>()
-          .getIngredientIfExist(ingredientNameController.text)
-          .then((ingredient) {
-        if (ingredient.name != "") {
-          Navigator.pushNamed(context, "detail", arguments: ingredient);
-          return;
-        }
-        context
-            .read<GeminiProvider>()
-            .getIngredientInformation(ingredientNameController.text, user)
-            .then(
-          (ingredient) {
-            if (ingredient.description == "") {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Invalid ingredient")));
-              return;
-            }
-            Provider.of<IngredientDatabaseProvider>(context, listen: false)
-                .addIngredientToDb(ingredient);
-          },
-        );
-      });
-    }
+          .read<GeminiProvider>()
+          .getIngredientInformation(ingredientNameController.text, user)
+          .then(
+        (ingredient) {
+          if (ingredient.description == "") {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Invalid ingredient"),
+              ),
+            );
+            return;
+          }
+          Provider.of<IngredientDatabaseProvider>(context, listen: false)
+              .addIngredientToDb(ingredient);
+        },
+      );
+    });
   }
 }
