@@ -1,4 +1,5 @@
 import 'package:decoder/src/data/provider/user/user_database_provider.dart';
+import 'package:decoder/src/presentation/ui/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,27 +16,37 @@ class DrawerMenu extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: [
         UserAccountsDrawerHeader(
-          accountName: Text('Hi ${user.name}'),
-          accountEmail: Text("Age ${user.age}"),
+          accountName: Text('${user.name}'),
+          accountEmail: Text("Edad: ${user.age}"),
         ),
         ListTile(
-          title: Text("Diabetes type: ${user.diabetesType.name} "),
+          title: Text("Tipo de diabetes: ${user.diabetesType.name} "),
         ),
         ListTile(
-          title: Text("Hypertension type:${user.hypertensionType.name} "),
+          title: Text("Tipo de hipertensión:${user.hypertensionType.name} "),
         ),
         const Divider(),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (ctx) => UserRegisterScreen(
+                        userData: user,
+                      ),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.edit)),
             IconButton(
               onPressed: () {
                 Provider.of<UserDatabaseProvider>(context, listen: false)
                     .deleteUserData(user);
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("User: ${user.name} Deleted")));
+                    SnackBar(content: Text("Usuario: ${user.name} Eliminado")));
               },
               icon: const Icon(
                 Icons.delete,
