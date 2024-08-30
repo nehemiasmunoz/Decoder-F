@@ -24,4 +24,9 @@ class UserDatabaseProvider extends ChangeNotifier {
     UserRepositoryImpl().deleteOne(user.id);
     notifyListeners();
   }
+
+  void updateUser(User user) {
+    UserRepositoryImpl().updateOne(user);
+    notifyListeners();
+  }
 }
