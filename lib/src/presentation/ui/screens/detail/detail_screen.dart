@@ -50,18 +50,19 @@ class DetailScreenBody extends StatelessWidget {
                 ],
               ),
             ),
-            const Text("Description:"),
+            const Text("Descripción"),
             Text(ingredient.description),
             const Divider(),
-            const Text("Recommended for me"),
-            Text(ingredient.recommendedForMe.toString()),
+            const Text("Recomendado para mi"),
+            Text(
+                ingredient.recommendedForMe ? "Recomendado" : "No recomendado"),
             const Divider(),
             Visibility(
                 visible: (ingredient.diabeticsReasons != "[]"),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Diabetics reasons"),
+                    const Text("Razones para diabeticos"),
                     Text(
                       ingredient.diabeticsReasons
                           .replaceAll(RegExp(r'[\[\]]'), ''),
@@ -74,7 +75,7 @@ class DetailScreenBody extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Hypertensive reasons"),
+                  const Text("Razones para hipertensos"),
                   Text(ingredient.hypertensiveReasons
                       .replaceAll(RegExp(r'[\[\]]'), '')),
                 ],

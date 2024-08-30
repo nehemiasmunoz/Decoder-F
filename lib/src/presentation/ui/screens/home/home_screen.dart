@@ -18,12 +18,12 @@ class HomeScreen extends StatelessWidget {
         child: user.name == ""
             ? ElevatedButton(
                 onPressed: () => Navigator.pushNamed(context, "register"),
-                child: const Text("Register"))
+                child: const Text("Registrarse"))
             : const DrawerMenu(),
       ),
       appBar: AppBar(
         title: const Text(
-          "Home Screen",
+          "Inicio",
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
             builder: (ctx) => SearchIngredientView(),
           );
         },
-        label: const Text("Search"),
+        label: const Text("Buscar"),
         icon: const Icon(Icons.search),
       ),
     );
@@ -59,7 +59,7 @@ class HomeScreenBody extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Text(
-              "${value.ingredients.length} Ingredients",
+              "${value.ingredients.length} Ingredientes",
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             Expanded(
@@ -67,7 +67,7 @@ class HomeScreenBody extends StatelessWidget {
                 builder: (BuildContext context, value, Widget? child) {
                   if (value.ingredients.isEmpty) {
                     return const Center(
-                        child: Text("The ingredient database is empty"));
+                        child: Text("Aun no existen registros"));
                   }
                   return ListView.builder(
                     itemCount: value.ingredients.length,

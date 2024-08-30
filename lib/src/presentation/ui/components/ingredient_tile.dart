@@ -24,7 +24,7 @@ class IngredientTile extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
-                        "${ingredient.name} Has been deleted",
+                        "${ingredient.name} eliminado",
                       ),
                     ),
                   );
@@ -51,8 +51,8 @@ class IngredientTile extends StatelessWidget {
                           vertical: 4, horizontal: 6),
                       child: Text(
                         (ingredient.recommendedForMe)
-                            ? "Recommended"
-                            : "Not recommended",
+                            ? "Recomendado"
+                            : "No recomendado",
                         style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),

@@ -27,7 +27,7 @@ class SearchIngredientView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Text(
-                  "Enter your ingredient",
+                  "Ingresa tu ingrediente",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold),
                 ),
@@ -43,8 +43,6 @@ class SearchIngredientView extends StatelessWidget {
                   autocorrect: false,
                   textAlign: TextAlign.center,
                   validator: (value) => model.validateIngredient(value),
-                  decoration:
-                      const InputDecoration(hintText: "Insert your ingredient"),
                 ),
                 SizedBox(
                   height: size.height * .01,
@@ -55,8 +53,7 @@ class SearchIngredientView extends StatelessWidget {
                     if (user.name == "") {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content:
-                              Text("You have to complete the register first"),
+                          content: Text("Primero debes completar el registro"),
                         ),
                       );
                       Future.delayed(const Duration(seconds: 1));
@@ -78,7 +75,7 @@ class SearchIngredientView extends StatelessWidget {
                         if (!context.mounted) return;
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
-                          content: Text("Invalid ingredient"),
+                          content: Text("Ingrediente invalido"),
                         ));
                       } else {
                         if (!context.mounted) return;
@@ -90,7 +87,7 @@ class SearchIngredientView extends StatelessWidget {
                     model.ingredientNameController.clear();
                     Navigator.pop(context);
                   },
-                  child: const Text("Search"),
+                  child: const Text("Buscar"),
                 )
               ],
             ),
