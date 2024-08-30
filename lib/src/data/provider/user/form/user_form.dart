@@ -8,6 +8,14 @@ class UserForm extends ChangeNotifier {
   User newUser = User.withParameters("", 0, Diabetes.none, Hypertension.none);
   GlobalKey<FormState> get formKey => _formKey;
 
+  void fillUser(User user) {
+    newUser.name = user.name;
+    newUser.age = user.age;
+    newUser.diabetesType = user.diabetesType;
+    newUser.hypertensionType = user.hypertensionType;
+    // notifyListeners();
+  }
+
   void setDiabetes(Diabetes newValue) {
     newUser.diabetesType = newValue;
     notifyListeners();
@@ -22,7 +30,7 @@ class UserForm extends ChangeNotifier {
     if (val != null && val.isNotEmpty) {
       return null;
     } else {
-      return "Please enter a valid name";
+      return "Ingresa un nombre valido";
     }
   }
 
@@ -39,7 +47,7 @@ class UserForm extends ChangeNotifier {
       if (age > 0 && age < 130) {
         return null;
       }
-      return "Please enter a valid age";
+      return "Ingresa una edad valida";
     }
   }
 
