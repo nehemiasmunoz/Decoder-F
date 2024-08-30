@@ -4,17 +4,21 @@ import 'package:decoder/src/domain/models/enums/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../domain/models/models.dart';
+
 class UserRegisterScreen extends StatelessWidget {
-  const UserRegisterScreen({super.key});
+  const UserRegisterScreen({super.key, this.userData});
+  final User? userData;
 
   @override
   Widget build(BuildContext context) {
     final UserForm form = Provider.of<UserForm>(context);
     final UserDatabaseProvider userDb =
         Provider.of<UserDatabaseProvider>(context);
+    (userData != null) ? form.fillUser(userData!) : null;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("User Register"),
+        title: const Text("Registro usuario"),
         centerTitle: true,
       ),
       body: Container(
@@ -27,16 +31,18 @@ class UserRegisterScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CustomTextField(
+                  initialValue: form.newUser.name,
                   keyboard: TextInputType.name,
                   onChanged: (val) => form.newUser.name = val,
-                  placeholder: "Name",
+                  placeholder: "Nombre",
                   maxLength: 20,
                   validator: (val) => form.validateName(val),
                 ),
                 CustomTextField(
+                  initialValue: form.newUser.age.toString(),
                   maxLength: 3,
                   keyboard: TextInputType.number,
-                  placeholder: "Age",
+                  placeholder: "Edad",
                   onChanged: (val) => form.newUser.age = int.parse(val),
                   validator: (val) => form.validateAge(val),
                 ),
@@ -87,43 +93,18 @@ class UserRegisterScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     if (!form.validateForm()) return;
-                    userDb.addUserToDb(form.getUserData());
+                    if (userData != null) {
+                      userDb.updateUser(form.getUserData());
+                    } else {
+                      userDb.addUserToDb(form.getUserData());
+                    }
                     Navigator.pop(context);
                   },
-                  child: const Text("Add"),
+                  child: const Text("Guardar"),
                 )
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomCheckbox extends StatelessWidget {
-  const CustomCheckbox({
-    super.key,
-    required this.title,
-    required this.isChecked,
-    required this.onChanged,
-  });
-
-  final String title;
-  final bool isChecked;
-  final Function onChanged;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-          border: Border.all(width: .5),
-          borderRadius: BorderRadius.circular(5)),
-      child: ListTile(
-        title: Text(title),
-        trailing: Checkbox(
-          value: isChecked,
-          onChanged: (val) => onChanged(val),
         ),
       ),
     );
@@ -138,16 +119,19 @@ class CustomTextField extends StatelessWidget {
     required this.placeholder,
     required this.validator,
     required this.maxLength,
+    this.initialValue,
   });
   final TextInputType keyboard;
   final int maxLength;
   final Function onChanged;
   final Function validator;
   final String placeholder;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       keyboardType: keyboard,
       decoration: InputDecoration(
           hintText: placeholder, border: const OutlineInputBorder()),
