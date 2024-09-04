@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:decoder/controllers/provider/providers.dart';
 import 'package:decoder/views/components/components.dart';
 import 'package:decoder/views/screens/views.dart';
@@ -79,8 +80,11 @@ class HomeScreenBody extends StatelessWidget {
                     )
                   : ListView.builder(
                       itemCount: notifier.ingredients.length,
-                      itemBuilder: (context, i) => IngredientTile(
-                        ingredient: notifier.ingredients[i],
+                      itemBuilder: (context, i) => FadeIn(
+                        delay: Duration(milliseconds: 100 * i),
+                        child: IngredientTile(
+                          ingredient: notifier.ingredients[i],
+                        ),
                       ),
                     ),
             ),
