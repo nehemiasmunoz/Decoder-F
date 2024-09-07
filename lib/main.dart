@@ -1,4 +1,6 @@
 import 'package:decoder/routes/app_routes.dart';
+import 'package:decoder/util/theme_app.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +38,9 @@ class MainApp extends StatelessWidget {
       child: MaterialApp(
         initialRoute: AppRoutes.initialRoute,
         routes: AppRoutes.routes,
+        themeMode: ThemeMode.system,
+        theme: light,
+        darkTheme: dark,
       ),
     );
   }
