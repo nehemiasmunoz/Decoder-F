@@ -25,8 +25,12 @@ class Ingredient {
     description = map[ingredientColumnDescription].toString();
     recommendedForMe =
         bool.parse(map[ingredientColumnRecommendedForMe].toString());
-    diabeticsReasons = map[ingredientColumnDiabeticsReasons].toString();
-    hypertensiveReasons = map[ingredientColumnHypertensiveReasons].toString();
+    diabeticsReasons = map[ingredientColumnDiabeticsReasons]
+        .toString()
+        .replaceAll(RegExp(r'[\[\]]'), '');
+    hypertensiveReasons = map[ingredientColumnHypertensiveReasons]
+        .toString()
+        .replaceAll(RegExp(r'[\[\]]'), '');
   }
 
   Ingredient.fromDBMap(Map<String, Object?> map) {
