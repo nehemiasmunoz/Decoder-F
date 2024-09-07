@@ -62,7 +62,8 @@ class SearchIngredientView extends StatelessWidget {
                       if (!context.mounted) return;
                       final data = await model.getDataFromGemini(context, user);
 
-                      if (data.description == "") {
+                      if (data.diabeticsReasons == "" &&
+                          data.hypertensiveReasons == "") {
                         if (!context.mounted) return;
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
