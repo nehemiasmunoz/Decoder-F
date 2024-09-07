@@ -10,7 +10,10 @@ class DetailView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(ingredient.name.toUpperCase()),
+        title: Text(
+          ingredient.name.toUpperCase(),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: DetailViewBody(ingredient: ingredient),
     );
@@ -30,6 +33,8 @@ class DetailViewBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
+              margin: EdgeInsets.symmetric(
+                  vertical: size.height * .02, horizontal: size.width * .01),
               decoration: BoxDecoration(
                   color: Colors.amber[100],
                   borderRadius: BorderRadius.circular(5),
@@ -44,7 +49,7 @@ class DetailViewBody extends StatelessWidget {
                     flex: 4,
                     child: Text(
                       "La información generada por IA debe ser considerada como una hipótesis a verificar con un profesional de la salud.",
-                      style: TextStyle(),
+                      style: TextStyle(color: Colors.black),
                     ),
                   ),
                 ],
@@ -58,26 +63,22 @@ class DetailViewBody extends StatelessWidget {
                 ingredient.recommendedForMe ? "Recomendado" : "No recomendado"),
             const Divider(),
             Visibility(
-                visible: (ingredient.diabeticsReasons != "[]"),
+                visible: (ingredient.diabeticsReasons != ""),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Razones para diabeticos"),
-                    Text(
-                      ingredient.diabeticsReasons
-                          .replaceAll(RegExp(r'[\[\]]'), ''),
-                    ),
+                    Text(ingredient.diabeticsReasons),
                     const Divider(),
                   ],
                 )),
             Visibility(
-              visible: (ingredient.hypertensiveReasons != "[]"),
+              visible: (ingredient.hypertensiveReasons != ""),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text("Razones para hipertensos"),
-                  Text(ingredient.hypertensiveReasons
-                      .replaceAll(RegExp(r'[\[\]]'), '')),
+                  Text(ingredient.hypertensiveReasons),
                 ],
               ),
             )
