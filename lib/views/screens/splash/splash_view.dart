@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:local_auth/local_auth.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -9,34 +11,66 @@ class SplashView extends StatefulWidget {
 
 class _SplashViewState extends State<SplashView>
     with SingleTickerProviderStateMixin {
+  late final LocalAuthentication auth;
+  bool _supportState = false;
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, "home");
-    });
+
+    auth = LocalAuthentication();
+    auth.isDeviceSupported().then(
+          (bool isSuported) => setState(
+            () {
+              _supportState = isSuported;
+            },
+          ),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SizedBox(
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.search,
               size: 90,
             ),
-            Text(
+            const Text(
               "Decoder",
               style: TextStyle(fontSize: 30),
-            )
+            ),
+            ElevatedButton(
+                onPressed: () async {
+                  _getAvailableBiometrics;
+                  await _authenticate();
+                  Navigator.pushReplacementNamed(context, "home");
+                },
+                child: const Text("Ingresar"))
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _authenticate() async {
+    try {
+      bool authenticated = await auth.authenticate(
+          localizedReason: "Verifica tu identidad",
+          options: const AuthenticationOptions(
+              stickyAuth: true, biometricOnly: true));
+    } on PlatformException catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _getAvailableBiometrics() async {
+    List<BiometricType> availableBiometrics =
+        await auth.getAvailableBiometrics();
+    if (!mounted) return;
   }
 }
