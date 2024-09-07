@@ -16,14 +16,28 @@ class DrawerMenu extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: [
         UserAccountsDrawerHeader(
-          accountName: Text(user.name),
+          accountName: Text(
+            user.name,
+            style: const TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
           accountEmail: Text("Edad: ${user.age}"),
         ),
         ListTile(
-          title: Text("Tipo de diabetes: ${user.diabetesType.type} "),
+          title: Text("Tipo de diabetes:"),
+          subtitle: Text(
+            user.diabetesType.type,
+            style: TextStyle(fontSize: 17),
+          ),
         ),
         ListTile(
-          title: Text("Tipo de hipertensión:${user.hypertensionType.type} "),
+          title: Text("Tipo de hipertensión: "),
+          subtitle: Text(
+            user.hypertensionType.type,
+            style: TextStyle(fontSize: 17),
+          ),
         ),
         const Divider(),
         Row(
