@@ -12,14 +12,6 @@ class UserForm extends ChangeNotifier {
 
   GlobalKey<FormState> get formKey => _formKey;
 
-  void fillUser(User user) {
-    ctrlName.text = user.name;
-    ctrlAge.text = user.age.toString();
-    diabetesType = user.diabetesType;
-    hypertensionType = user.hypertensionType;
-    notifyListeners();
-  }
-
   void setDiabetes(Diabetes newValue) {
     diabetesType = newValue;
     notifyListeners();
@@ -69,5 +61,13 @@ class UserForm extends ChangeNotifier {
       diabetesType,
       hypertensionType,
     );
+  }
+
+  void resetForm() {
+    ctrlAge.clear();
+    ctrlName.clear();
+    diabetesType = Diabetes.none;
+    hypertensionType = Hypertension.none;
+    notifyListeners();
   }
 }
