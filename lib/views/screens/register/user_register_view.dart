@@ -1,6 +1,7 @@
 import 'package:decoder/controllers/provider/user/form/user_form.dart';
 import 'package:decoder/controllers/provider/user/user_database_provider.dart';
 import 'package:decoder/models/enums/enums.dart';
+import 'package:decoder/views/screens/enum_detail/enum_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,12 +13,20 @@ class UserRegisterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notifierFunctions = Provider.of<UserForm>(context, listen: false);
+    final notifier = Provider.of<UserForm>(context);
     final userDb = Provider.of<UserDatabaseProvider>(context);
-    (user != null) ? notifierFunctions.fillUser(user!) : null;
+    if (user != null) {
+      notifier.ctrlName.text = user!.name;
+      notifier.ctrlAge.text = user!.age.toString();
+      notifier.diabetesType = user!.diabetesType;
+      notifier.hypertensionType = user!.hypertensionType;
+    }
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Registro usuario"),
+        title: const Text(
+          "Registro usuario",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
       body: Container(
@@ -47,21 +56,41 @@ class UserRegisterView extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          border: Border.all(width: .5),
+                          border: Border.all(width: 1),
                           borderRadius: BorderRadius.circular(5)),
-                      child: DropdownButton<Diabetes>(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 10),
-                        isExpanded: true,
-                        items: Diabetes.values.map((Diabetes item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(item.type),
-                          );
-                        }).toList(),
-                        onChanged: (Diabetes? value) =>
-                            notifier.setDiabetes(value!),
-                        value: notifier.diabetesType,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: DropdownButton<Diabetes>(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 10),
+                              isExpanded: true,
+                              items: Diabetes.values.map((Diabetes item) {
+                                return DropdownMenuItem(
+                                  value: item,
+                                  child: Text(item.type),
+                                );
+                              }).toList(),
+                              onChanged: (Diabetes? value) =>
+                                  notifier.setDiabetes(value!),
+                              value: notifier.diabetesType,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (ctx) => EnumDetail(
+                                    title: "Tipos de diabetes",
+                                    items: diabetesList,
+                                  ),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.info_outline),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(
@@ -69,22 +98,43 @@ class UserRegisterView extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(width: .5),
+                        border: Border.all(width: 1),
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: DropdownButton<Hypertension>(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 10),
-                        isExpanded: true,
-                        items: Hypertension.values.map((Hypertension item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(item.type),
-                          );
-                        }).toList(),
-                        onChanged: (Hypertension? value) =>
-                            notifier.setHypertension(value!),
-                        value: notifier.hypertensionType,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: DropdownButton<Hypertension>(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 10),
+                              isExpanded: true,
+                              items:
+                                  Hypertension.values.map((Hypertension item) {
+                                return DropdownMenuItem(
+                                  value: item,
+                                  child: Text(item.type),
+                                );
+                              }).toList(),
+                              onChanged: (Hypertension? value) =>
+                                  notifier.setHypertension(value!),
+                              value: notifier.hypertensionType,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (ctx) => EnumDetail(
+                                    title: "Tipos de hipertension",
+                                    items: hypertensionList,
+                                  ),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.info_outline),
+                          )
+                        ],
                       ),
                     ),
                     const SizedBox(
@@ -98,6 +148,7 @@ class UserRegisterView extends StatelessWidget {
                         } else {
                           userDb.addUser(notifier.getUserData());
                         }
+                        notifier.resetForm();
                         Navigator.pop(context);
                       },
                       child: const Text("Guardar"),
