@@ -48,7 +48,6 @@ class _SplashViewState extends State<SplashView>
                 onPressed: () async {
                   _getAvailableBiometrics;
                   await _authenticate();
-                  Navigator.pushReplacementNamed(context, "home");
                 },
                 child: const Text("Ingresar"))
           ],
@@ -58,14 +57,16 @@ class _SplashViewState extends State<SplashView>
   }
 
   Future<void> _authenticate() async {
+    bool authenticated = false;
     try {
-      bool authenticated = await auth.authenticate(
+      authenticated = await auth.authenticate(
           localizedReason: "Verifica tu identidad",
           options: const AuthenticationOptions(
               stickyAuth: true, biometricOnly: true));
     } on PlatformException catch (e) {
       print(e);
     }
+    (authenticated) ? Navigator.pushReplacementNamed(context, "home") : null;
   }
 
   Future<void> _getAvailableBiometrics() async {
