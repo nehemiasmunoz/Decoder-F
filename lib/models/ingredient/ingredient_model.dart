@@ -12,7 +12,7 @@ class Ingredient {
 
   Map<String, Object?> toMap() {
     var map = <String, Object?>{
-      ingredientColumnName: name,
+      ingredientColumnName: name.trim(),
       ingredientColumnDescription: description,
       ingredientColumnRecommendedForMe: recommendedForMe == true ? 1 : 0,
       ingredientColumnDiabeticsReasons: diabeticsReasons,
