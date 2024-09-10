@@ -52,32 +52,30 @@ class SearchIngredientView extends StatelessWidget {
                     if (!model.isFormValid) return;
                     final ingredient = await model.submitForm(context, user);
                     if (ingredient != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (ctx) => DetailView(ingredient: ingredient),
-                        ),
-                      );
+                      sendToDetailScreen(ctx, ingredient);
+                      model.ctrlIngredient.clear();
+                      return;
                     } else {
-                      if (!context.mounted) return;
-                      final data = await model.getDataFromGemini(context, user);
+                      final newIngredient =
+                          await model.getDataFromGemini(context, user);
 
-                      if (data.diabeticsReasons == "" &&
-                          data.hypertensiveReasons == "") {
-                        if (!context.mounted) return;
+                      if (newIngredient.diabeticsReasons == "" &&
+                          newIngredient.hypertensiveReasons == "") {
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                           content: Text("Ingrediente invalido"),
                         ));
+                        return;
                       } else {
-                        if (!context.mounted) return;
                         Provider.of<IngredientDatabaseProvider>(context,
                                 listen: false)
-                            .addIngredient(data);
+                            .addIngredient(newIngredient);
+                        model.ctrlIngredient.clear();
+                        Navigator.pop(context);
+                        sendToDetailScreen(ctx, newIngredient);
+                        return;
                       }
                     }
-                    model.ctrlIngredient.clear();
-                    Navigator.pop(context);
                   },
                   child: const Text("Buscar"),
                 )
@@ -88,4 +86,12 @@ class SearchIngredientView extends StatelessWidget {
       ),
     );
   }
+}
+
+void sendToDetailScreen(BuildContext ctx, Ingredient ingredient) {
+  Navigator.of(ctx).push(
+    MaterialPageRoute(
+      builder: (ctx) => DetailView(ingredient: ingredient),
+    ),
+  );
 }
