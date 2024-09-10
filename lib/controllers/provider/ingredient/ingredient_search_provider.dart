@@ -20,16 +20,16 @@ class IngredientSearchProvider extends ChangeNotifier {
   }
 
   Future<Ingredient?> submitForm(BuildContext context, User user) async {
-    final ingredient = await context
+    Ingredient? ingredient = await context
         .read<IngredientDatabaseProvider>()
-        .getIngredientIfExist(ctrlIngredient.text);
+        .getIngredientIfExist(ctrlIngredient.text.trim());
     return ingredient;
   }
 
   Future<Ingredient> getDataFromGemini(BuildContext context, user) async {
     final data = await context
         .read<GeminiProvider>()
-        .getIngredientInformation(ctrlIngredient.text, user);
+        .getIngredientInformation(ctrlIngredient.text.trim(), user);
     return data;
   }
 }
