@@ -55,10 +55,16 @@ class DetailViewBody extends StatelessWidget {
                 ],
               ),
             ),
-            const Text("Descripción"),
+            const Text(
+              "Descripción",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             Text(ingredient.description),
             const Divider(),
-            const Text("Recomendado para mi"),
+            const Text(
+              "Recomendado para mi",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             Text(
                 ingredient.recommendedForMe ? "Recomendado" : "No recomendado"),
             const Divider(),
@@ -67,7 +73,10 @@ class DetailViewBody extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Razones para diabeticos"),
+                    const Text(
+                      "Razones para diabeticos",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     Text(ingredient.diabeticsReasons),
                     const Divider(),
                   ],
@@ -77,7 +86,10 @@ class DetailViewBody extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Razones para hipertensos"),
+                  const Text(
+                    "Razones para hipertensos",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Text(ingredient.hypertensiveReasons),
                 ],
               ),
