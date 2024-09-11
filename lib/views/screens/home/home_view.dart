@@ -26,7 +26,17 @@ class HomeView extends StatelessWidget {
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.camera))],
+        actions: [
+          IconButton(
+            onPressed: () => showDialog(
+              barrierDismissible: false,
+              builder: (ctx) => showDisclaimer(ctx),
+              context: context,
+            ),
+            icon: const Icon(Icons.info_sharp),
+            color: Colors.amber,
+          )
+        ],
       ),
       body: const HomeScreenBody(),
       floatingActionButton: FloatingActionButton.extended(
@@ -96,4 +106,23 @@ class HomeScreenBody extends StatelessWidget {
       }),
     );
   }
+}
+
+AlertDialog showDisclaimer(BuildContext ctx) {
+  return AlertDialog(
+    title: const Text("Información importante"),
+    content: const SingleChildScrollView(
+      child: Text(
+        "Esta aplicación te ofrece información basada en datos y algoritmos, pero es importante recordar que cada persona es única. Las recomendaciones personalizadas que recibas no deben reemplazar la consulta con un especialista en el área.",
+      ),
+    ),
+    actions: [
+      TextButton(
+        onPressed: () {
+          Navigator.pop(ctx);
+        },
+        child: const Text('Entendido'),
+      )
+    ],
+  );
 }
